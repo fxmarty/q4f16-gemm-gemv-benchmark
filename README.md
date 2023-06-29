@@ -10,7 +10,7 @@ This repository aims to compare the available open-source GEMM / GEMV kernels us
 
 ## Results
 
-On A100-SXM4-80GB & Intel Xeon Platinum 8275CL CPU + CUDA 11.8:
+On A100-SXM4-80GB & Intel Xeon Platinum 8275CL CPU + CUDA 11.7/11.8:
 
 |m  |n   |k   |implementation|act_order        |Time (ms/op)|Max mem (MB)|
 |---|----|----|--------------|-----------------|--------------|----------|
@@ -22,11 +22,11 @@ On A100-SXM4-80GB & Intel Xeon Platinum 8275CL CPU + CUDA 11.8:
 |1  |8192|8192|autogptq-cuda-old|False            |0.0831        |71.9585   |
 |1  |8192|8192|autogptq-cuda |True             |0.1546        |69.8778   |
 
-On RTX 4090 + AMD Ryzen 9 7950X CPU + CUDA 12.1 (except `quant` env that uess 11.7):
+On RTX 4090 + AMD Ryzen 9 7950X CPU:
 
 TODO
 
-On A10G:
+On A10G + CUDA 11.8:
 
 TODO
 
@@ -57,15 +57,15 @@ CUDA_VISIBLE_DEVICES=0 python run_benchmark.py --m 1 --n 8192 --k 8192 --group_s
 ```
 
 ## Run all benchmarks
-Set up conda environments satisfying each repo requirements, named:
-* `quant` for autogptqforllama,
-* `exllama` for exllama
-* `autogptq` for autogptq
-
-and run
 
 ```
-CUDA_VISIBLE_DEVICES=0 bash run.sh
+docker build -f Dockerfile --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -t container-q4f16 .
+```
+
+and
+
+```
+docker run --gpus device=0 --rm container-q4f16:latest
 ```
 
 

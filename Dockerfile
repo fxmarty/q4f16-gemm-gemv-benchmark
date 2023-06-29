@@ -10,7 +10,7 @@ RUN addgroup --gid $GROUP_ID user
 RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y git && rm -rf /var/lib/apt/lists/*
+RUN apt-get install -y git wget && rm -rf /var/lib/apt/lists/*
 
 USER user
 WORKDIR /home/user
@@ -33,18 +33,21 @@ RUN conda create -n autogptq python=3.9 -y
 RUN conda create -n exllama python=3.9 -y
 RUN conda create -n quant python=3.9 -y
 
-RUN conda activate exllama
-RUN pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu118
-RUN pip install numpy
-RUN pip install safetensors sentencepiece ninja
+RUN eval "$(conda shell.bash hook)" \
+    && conda activate exllama \
+    && pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu118 \
+    && pip install numpy \
+    && pip install safetensors sentencepiece ninja
 
-RUN conda activate quant
-RUN pip install torch
-RUN cd GPTQ-for-LLaMa && pip install -r requirements.txt
+RUN eval "$(conda shell.bash hook)" \
+    && conda activate quant \
+    && pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 \
+    && cd GPTQ-for-LLaMa && pip install -r requirements.txt
 
-RUN conda activate autogptq
-RUN pip install torch
-RUN cd AutoGPTQ && pip install -e .
+RUN eval "$(conda shell.bash hook)" \
+    && conda activate autogptq \
+    && pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 \
+    && cd AutoGPTQ && pip install -e .
 
 WORKDIR /home/user/q4f16-gemm-gemv-benchmark
-RUN CUDA_VISIBLE_DEVICES=0 bash run.sh
+CMD CUDA_VISIBLE_DEVICES=0 bash run.sh
