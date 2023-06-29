@@ -31,6 +31,8 @@ RUN git clone https://github.com/turboderp/exllama.git
 RUN conda create -n exllama python=3.9 -y
 RUN conda create -n quant python=3.9 -y
 
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64:$LD_LIBRARY_PATH
+
 RUN eval "$(conda shell.bash hook)" \
     && conda activate exllama \
     && pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu118 \

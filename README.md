@@ -10,7 +10,7 @@ This repository aims to compare the available open-source GEMM / GEMV kernels us
 
 ## Results
 
-On A100-SXM4-80GB & Intel Xeon Platinum 8275CL CPU + CUDA 11.7/11.8:
+On A100-SXM4-80GB & Intel Xeon Platinum 8275CL CPU + CUDA 11.7/11.8 (should be rerun in docker):
 
 |m  |n   |k   |implementation|act_order        |Time (ms/op)|Max mem (MB)|
 |---|----|----|--------------|-----------------|--------------|----------|
@@ -22,13 +22,21 @@ On A100-SXM4-80GB & Intel Xeon Platinum 8275CL CPU + CUDA 11.7/11.8:
 |1  |8192|8192|autogptq-cuda-old|False            |0.0831        |71.9585   |
 |1  |8192|8192|autogptq-cuda |True             |0.1546        |69.8778   |
 
-On RTX 4090 + AMD Ryzen 9 7950X CPU:
+On RTX 4090 + AMD Ryzen 9 7950X CPU + CUDA 11.8:
 
 TODO
 
-On A10G + CUDA 11.8:
+On A10G + AMD EPYC 7R32 CPU + CUDA 11.8 (docker):
 
-TODO
+|m  |n   |k   |implementation|act_order        |Time (ms/op)|Max mem (MB)|
+|---|----|----|--------------|-----------------|--------------|----------|
+|1  |8192|8192|baseline      |True             |0.2891        |177.6845  |
+|1  |8192|8192|gptqforllama  |True             |0.1746        |69.8450   |
+|1  |8192|8192|autogptq-triton|True             |0.2963        |69.8450   |
+|1  |8192|8192|autogptq-cuda-old|False            |0.0979        |71.9585   |
+|1  |8192|8192|autogptq-cuda |True             |0.1483        |69.8778   |
+|1  |8192|8192|exllama       |False            |0.0842        |34.9143   |
+|1  |8192|8192|exllama       |True             |0.0839        |34.9471   |
 
 ## Run the benchmark
 
@@ -65,7 +73,5 @@ docker build -f Dockerfile --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(i
 and
 
 ```
-docker run --gpus device=0 --rm container-q4f16:latest
+docker run --gpus device=0 -it --rm container-q4f16:latest /bin/bash run.sh
 ```
-
-
