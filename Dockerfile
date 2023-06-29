@@ -27,9 +27,7 @@ WORKDIR /home/user
 RUN git clone https://github.com/PanQiWei/AutoGPTQ.git
 RUN git clone https://github.com/qwopqwop200/GPTQ-for-LLaMa.git
 RUN git clone https://github.com/turboderp/exllama.git
-RUN git clone https://github.com/fxmarty/q4f16-gemm-gemv-benchmark.git
 
-RUN conda create -n autogptq python=3.9 -y
 RUN conda create -n exllama python=3.9 -y
 RUN conda create -n quant python=3.9 -y
 
@@ -42,12 +40,9 @@ RUN eval "$(conda shell.bash hook)" \
 RUN eval "$(conda shell.bash hook)" \
     && conda activate quant \
     && pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 \
-    && cd GPTQ-for-LLaMa && pip install -r requirements.txt
+    && cd GPTQ-for-LLaMa && pip install -r requirements.txt \
+    && cd ../AutoGPTQ && pip install -e .
 
-RUN eval "$(conda shell.bash hook)" \
-    && conda activate autogptq \
-    && pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 \
-    && cd AutoGPTQ && pip install -e .
-
+RUN git clone https://github.com/fxmarty/q4f16-gemm-gemv-benchmark.git
 WORKDIR /home/user/q4f16-gemm-gemv-benchmark
 CMD CUDA_VISIBLE_DEVICES=0 bash run.sh
