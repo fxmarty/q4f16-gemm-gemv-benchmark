@@ -66,6 +66,8 @@ CUDA_VISIBLE_DEVICES=0 python run_benchmark.py --m 1 --n 8192 --k 8192 --group_s
 
 ## Run all benchmarks
 
+Follow https://stackoverflow.com/a/61737404 and
+
 ```
 docker build -f Dockerfile --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -t container-q4f16 .
 ```
