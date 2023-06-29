@@ -10,7 +10,7 @@ This repository aims to compare the available open-source GEMM / GEMV kernels us
 
 ## Results
 
-On A100-SXM4-80GB & Intel Xeon Platinum 8275CL CPU:
+On A100-SXM4-80GB & Intel Xeon Platinum 8275CL CPU + CUDA 11.8:
 
 |m  |n   |k   |implementation|act_order        |Time (ms/op)|Max mem (MB)|
 |---|----|----|--------------|-----------------|--------------|----------|
@@ -22,7 +22,7 @@ On A100-SXM4-80GB & Intel Xeon Platinum 8275CL CPU:
 |1  |8192|8192|autogptq-cuda-old|False            |0.0831        |71.9585   |
 |1  |8192|8192|autogptq-cuda |True             |0.1546        |69.8778   |
 
-On RTX 4090:
+On RTX 4090 + AMD Ryzen 9 7950X CPU + CUDA 12.1 (except `quant` env that uess 11.7):
 
 TODO
 

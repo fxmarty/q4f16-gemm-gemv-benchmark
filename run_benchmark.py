@@ -132,7 +132,7 @@ tensors = {
 }
 
 if implementation == "exllama":
-    config = ExLlamaConfig("../WizardLM-7B-uncensored-GPTQ/config.json")  # actually not used
+    config = ExLlamaConfig("dummy_config.json")  # actually not used
     if not act_order:
         del tensors["q_proj.g_idx"]
     linear = Ex4bitLinear(config, k, n, has_bias=False, tensors=tensors, key="q_proj")
