@@ -6,6 +6,7 @@ This repository aims to compare the available open-source GEMM / GEMV kernels us
 - [x] https://github.com/turboderp/exllama
 - [x] https://github.com/PanQiWei/AutoGPTQ
 - [ ] https://github.com/NVIDIA/FasterTransformer (only per-channel quantization, per-block not open-sourced, so not compared but sounds promising as based on CUTLASS)
+- [ ] AWQ implem https://github.com/mit-han-lab/llm-awq/tree/main/awq/kernels
 - [ ] Probably missing others
 
 ## Results
